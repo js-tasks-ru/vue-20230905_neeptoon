@@ -1,4 +1,4 @@
-// import { createApp } from './vendor/vue.esm-browser.js';
+import { createApp } from './vendor/vue.esm-browser.js';
 
 // From https://jsonplaceholder.typicode.com/comments
 const emails = [
@@ -28,5 +28,34 @@ const emails = [
   'Jeffery@juwan.us',
   'Isaias_Kuhic@jarrett.net',
 ];
+
+createApp({
+  data() {
+    return {
+      items: emails,
+      current: '',
+    };
+  },
+
+  computed: {
+    matches() {
+      return this.items.map((item) =>
+        item.toLowerCase().includes(this.current.toLowerCase()) && this.current
+          ? { mail: item, marked: true }
+          : { mail: item },
+      );
+    },
+  },
+
+  template: `
+      <div class="container">
+        <div class="form-group">
+          <input type="search" v-model="current"/>
+        </div>
+        <ul>
+          <li v-for="(item, index) in matches" :class="{marked: matches[index].marked}">{{ item.mail }}</li>
+        </ul>
+      </div>`,
+}).mount('#app');
 
 // Требуется создать Vue приложение
