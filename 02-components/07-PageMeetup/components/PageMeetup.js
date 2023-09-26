@@ -38,7 +38,7 @@ export default defineComponent({
         this.loading = false;
       } catch (error) {
         this.error = true;
-        this.errorMessage = error;
+        this.errorMessage = error.message;
       }
     },
   },
@@ -55,7 +55,7 @@ export default defineComponent({
   template: `
     <div class="page-meetup">
       <!-- meetup view -->
-      <MeetupView v-if="!loading" :meetup="this.currentMeetup"/>
+      <MeetupView v-if="!loading" :meetup="currentMeetup"/>
 
 
       <UiContainer v-if="loading  && !error">
@@ -63,7 +63,7 @@ export default defineComponent({
       </UiContainer>
 
       <UiContainer v-if="error">
-        <UiAlert text="Test Error"/>
+        <UiAlert :text="errorMessage"/>
       </UiContainer>
     </div>`,
 });
