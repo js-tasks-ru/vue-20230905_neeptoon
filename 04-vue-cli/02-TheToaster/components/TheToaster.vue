@@ -1,15 +1,15 @@
 <template>
-  <TheToastList :toasts="toasts" @deleteToast="deleteToast"/>
+  <TheToastList :toasts="toasts" @deleteToast="deleteToast" @delete="deleteToast"/>
 </template>
 
 <script>
-import TheToast from './TheToast.vue';
+import { nanoid } from 'nanoid'
 import TheToastList from './TheToastList.vue';
 
 export default {
   name: 'TheToaster',
 
-  components: { TheToast, TheToastList },
+  components: { TheToastList },
 
   data() {
     return {
@@ -17,27 +17,17 @@ export default {
     }
   },
 
-  watch: {
-    toasts(newToastsList) {
-      if (newToastsList.length) {
-        setTimeout(() => {
-          this.toasts.splice(0, 1)
-        }, 5000)
-      }
-    }
-  },
-
   methods: {
-    success(message) {
-      this.toasts = [...this.toasts, {type: 'success', message, id: Date.now()}]
+    success(message, time = 5000) {
+      this.toasts.push({type: 'success', message, time, id: nanoid()})
     },
 
-    error(message) {
-      this.toasts = [...this.toasts, {type: 'error', message, id: Date.now()}]
+    error(message, time = 5000) {
+      this.toasts.push({type: 'error', message, time, id: nanoid()})
     },
 
-    deleteToast(id) {
-      this.toasts = this.toasts.filter((toast) => toast.id !== id)
+    deleteToast(toast) {
+      this.toasts = this.toasts.filter((item) => item.id !== toast.id)
     }
   }
 };

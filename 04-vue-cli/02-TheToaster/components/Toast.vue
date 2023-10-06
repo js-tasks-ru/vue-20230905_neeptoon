@@ -1,7 +1,7 @@
 <template>
-    <div class="toast" :class="$options.CLASS[type]" @click="clickHandler(id)">
-      <UiIcon class="toast__icon" :icon="$options.ICON[type]" />
-      <span>{{ message }}</span>
+    <div class="toast" :class="$options.CLASS[toast.type]" @click="$emit('destroy', toast)">
+      <UiIcon class="toast__icon" :icon="$options.ICON[toast.type]" />
+      <span>{{ toast.message }}</span>
   </div>
 
 </template>
@@ -14,6 +14,8 @@ export default {
 
   components: { UiIcon },
 
+  emits: ['destroy'],
+
   CLASS: {
     success: 'toast_success',
     error: 'toast_error',
@@ -24,29 +26,24 @@ export default {
     error: 'alert-circle',
   },
 
-  emits: ['close'],
-
   props: {
-    type: {
+    toast: {
       required: true,
-      type: String,
+      type: Object,
     },
-    message: {
-      required: true,
-      type: String
-    },
-    id: {
-      required: true,
-      type: String,
-    }
   },
 
   methods: {
-    clickHandler(id) {
-      this.$emit('close', id)
+    destroyToast(time) {
+      setTimeout(() => {
+        this.$emit('destroy', this.toast)
+      }, time)
     }
-  }
+  },
 
+  mounted() {
+    this.destroyToast(this.toast.time)
+  }
 }
 </script>
 

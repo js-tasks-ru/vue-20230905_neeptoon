@@ -1,23 +1,21 @@
 <template>
     <div class="toasts">
-    <TheToast
+    <Toast
       v-for="(toast, index) in toasts"
       :key="index"
-      :type="toast.type"
-      :message="toast.message"
-      :id="toast.id"
-      @close="closeHandler(toast.id)"
+      :toast="toast"
+      @destroy="destroyHandler"
     />
   </div>
 
 </template>
 <script>
-import TheToast from './TheToast.vue';
+import Toast from './Toast.vue';
 
 export default {
-  components: { TheToast },
+  components: { Toast },
 
-  emits: ['deleteToast'],
+  emits: ['delete'],
 
   props: {
     toasts: {
@@ -27,11 +25,10 @@ export default {
   },
 
   methods: {
-    closeHandler(id) {
-      this.$emit('deleteToast', id)
+    destroyHandler(toast) {
+      this.$emit('delete', toast)
     }
-
-  },
+  }
 }
 </script>
 <style scoped>
