@@ -5,7 +5,7 @@
   "description": "Taskbook for Vue 3 Course on learn.javascript.ru",
   "author": "Grigorii K. Shartsev <g.shartsev@javascript.info>",
   "scripts": {
-    "serve": "vite --port 8080",
+    "serve": "vite --port 8085",
     "dev": "vite --port 8080",
     "test": "jest",
     "test:watch": "jest --watch",
