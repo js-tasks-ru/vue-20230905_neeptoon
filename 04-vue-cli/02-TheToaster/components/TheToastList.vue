@@ -1,19 +1,23 @@
 <template>
     <div class="toasts">
-    <Toast
-      v-for="(toast, index) in toasts"
-      :key="index"
-      :toast="toast"
-      @destroy="destroyHandler"
+    <UiToast
+      v-for="toast in toasts"
+      :key="toast.id"
+      :type="toast.type"
+      :message="toast.message"
+      :time="toast.time"
+      @destroy="destroyHandler(toast)"
     />
   </div>
 
 </template>
 <script>
-import Toast from './Toast.vue';
+import UiToast from './UiToast.vue';
 
 export default {
-  components: { Toast },
+  name:'TheToastList',
+
+  components: { UiToast },
 
   emits: ['delete'],
 

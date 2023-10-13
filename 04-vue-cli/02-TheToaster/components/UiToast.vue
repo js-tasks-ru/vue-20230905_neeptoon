@@ -1,7 +1,7 @@
 <template>
-    <div class="toast" :class="$options.CLASS[toast.type]" @click="$emit('destroy', toast)">
-      <UiIcon class="toast__icon" :icon="$options.ICON[toast.type]" />
-      <span>{{ toast.message }}</span>
+    <div class="toast" :class="$options.CLASS[type]" @click="$emit('destroy')">
+      <UiIcon class="toast__icon" :icon="$options.ICON[type]" />
+      <span>{{ message }}</span>
   </div>
 
 </template>
@@ -10,7 +10,7 @@
 import UiIcon from './UiIcon.vue';
 
 export default {
-  name: 'TheToast',
+  name: 'UiToast',
 
   components: { UiIcon },
 
@@ -27,22 +27,30 @@ export default {
   },
 
   props: {
-    toast: {
+    type: {
       required: true,
-      type: Object,
+      type: String,
     },
+    message: {
+      required: true,
+      type: String
+    },
+    time: {
+      type: Number,
+      required: false
+    }
   },
 
   methods: {
     destroyToast(time) {
       setTimeout(() => {
-        this.$emit('destroy', this.toast)
+        this.$emit('destroy')
       }, time)
     }
   },
 
   mounted() {
-    this.destroyToast(this.toast.time)
+    this.destroyToast(this.time)
   }
 }
 </script>

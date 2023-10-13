@@ -1,5 +1,5 @@
 <template>
-  <TheToastList :toasts="toasts" @deleteToast="deleteToast" @delete="deleteToast"/>
+  <TheToastList :toasts="toasts" @delete="deleteToast"/>
 </template>
 
 <script>
