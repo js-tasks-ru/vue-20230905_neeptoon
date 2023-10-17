@@ -6,7 +6,7 @@
       :class="{dropdown__toggle_icon: optionsHasIcon}"
       @click="dropDownClickHandler"
     >
-      <UiIcon :icon="selectedOption?.icon" class="dropdown__icon" />
+      <UiIcon v-if="selectedOption?.icon" :icon="selectedOption?.icon" class="dropdown__icon" />
       <span>{{ selectedOption?.text || title }}</span>
     </button>
 
@@ -20,7 +20,7 @@
         type="button"
         @click="itemClickHandler(option)"
       >
-        <UiIcon :icon="option.icon || tv" class="dropdown__icon" />
+        <UiIcon v-if="option.icon" :icon="option.icon" class="dropdown__icon" />
         {{ option.text }}
       </button>
     </div>
@@ -45,18 +45,15 @@ export default {
       required: true,
     },
     modelValue: {
-      type: String,
       required: true
     }
   },
 
-  emits: ['update:model-value'],
+  emits: ['update:modelValue'],
 
   data() {
     return {
       isDropDownOpened: false,
-
-      selectedOption: undefined,
     }
   },
 
@@ -77,15 +74,13 @@ export default {
   computed: {
     optionsHasIcon() {
       return this.options.some((option) => 'icon' in option)
+    },
+    selectedOption() {
+      return this.options.find(item => item.value === this.modelValue)
     }
   },
-  watch: {
-    modelValue(value) {
-      this.selectedOption = this.options.find((item) => item.value === value);
-    }
-  }
+}
 
-};
 </script>
 
 <style scoped>
