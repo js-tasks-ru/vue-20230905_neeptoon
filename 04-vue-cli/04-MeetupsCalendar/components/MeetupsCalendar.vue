@@ -54,16 +54,15 @@
 </template>
 
 <script>
+    const DATA = {
+      MILLISECONDS_OF_DAY: 86400000,
+      LAST_DAY_OF_WEEK_INDEX: 6,
+      FIRST_DAY_OF_WEEK_INDEX: 0,
+      AMOUNT_DAYS_OF_WEEK: 7,
+    };
+
 export default {
   name: 'MeetupsCalendar',
-
-  MILLISECONDS_OF_DAY: 86400000,
-
-  LAST_DAY_OF_WEEK_INDEX: 6,
-
-  FIRST_DAY_OF_WEEK_INDEX: 0,
-
-  AMOUNT_DAYS_OF_WEEK: 7,
 
   props: {
     meetups: {
@@ -80,11 +79,11 @@ export default {
 
   methods: {
     increaseDate() {
-      this.date = new Date(this.date.setMonth(this.date.getMonth() - 1))
+      this.date = new Date(this.date.setMonth(this.date.getMonth() - 1, 1))
     },
 
     decreaseDate() {
-      this.date = new Date(this.date.setMonth(this.date.getMonth() + 1))
+      this.date = new Date(this.date.setMonth(this.date.getMonth() + 1, 1))
     },
   },
 
@@ -112,22 +111,22 @@ export default {
       });
       const existMeetups = timestamps.map(timestamp => {
         return this.meetups.filter(meetup => {
-          return meetup.date >= timestamp && meetup.date <= (timestamp + this.$options.MILLISECONDS_OF_DAY)
+          return meetup.date >= timestamp && meetup.date <= (timestamp + DATA.MILLISECONDS_OF_DAY)
         })
       } )
       return {amountDays, firstDayNumber, lastDayNumber, timestamps, existMeetups}
     },
     previousMonth() {
       const amountDays = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
-      const amountVisibleDays = this.visibleMonth.firstDayNumber !== this.$options.FIRST_DAY_OF_WEEK_INDEX
+      const amountVisibleDays = this.visibleMonth.firstDayNumber !== DATA.FIRST_DAY_OF_WEEK_INDEX
         ? this.visibleMonth.firstDayNumber - 1
-        : this.$options.LAST_DAY_OF_WEEK_INDEX;
+        : DATA.LAST_DAY_OF_WEEK_INDEX;
       const startsVisibleData = amountDays - amountVisibleDays + 1;
       const visibleDays = new Array(amountVisibleDays).fill(startsVisibleData).map((item, idx) => item += idx );
       return {amountDays, startsVisibleData, amountVisibleDays, visibleDays}
     },
     nextMonth() {
-      const visibleDays =  this.$options.AMOUNT_DAYS_OF_WEEK - this.visibleMonth.lastDayNumber;
+      const visibleDays =  DATA.AMOUNT_DAYS_OF_WEEK - this.visibleMonth.lastDayNumber;
       return {visibleDays}
     }
   }
