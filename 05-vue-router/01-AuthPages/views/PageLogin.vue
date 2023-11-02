@@ -16,7 +16,7 @@
         <div class="form__buttons">
           <button type="submit" class="button button_primary button_block">Войти</button>
         </div>
-        <div class="form__append">Нет аккаунта? <a href="/register" class="link">Зарегистрируйтесь</a></div>
+        <div class="form__append">Нет аккаунта? <RouterLink :to="{ name: 'register'}" class="link">Зарегистрируйтесь</RouterLink></div>
       </form>
     </UiContainer>
   </div>
@@ -34,9 +34,20 @@ export default {
     UiContainer,
   },
 
+  props: {
+    query: {
+      type: String,
+      required: false
+    }
+  },
+
   methods: {
     handleSubmit() {
-      // Требуется обработать сабмит формы
+      if (this.query) {
+        this.$router.push({path: this.query})
+      } else {
+        this.$router.push({name: 'index'})
+      }
     },
   },
 };
