@@ -1,12 +1,9 @@
 <template>
   <div class="image-uploader">
     <label
-      ref="label"
       class="image-uploader__preview"
       :class="{'image-uploader__preview-loading' : uploading}"
-      :style="previewProxy
-                ? {'--bg-url': `url(${previewProxy})`}
-                : selectedImage?.image && {'--bg-url': `url(${selectedImageURL})`}"
+      :style="labelStyle"
     >
       <span class="image-uploader__text">
         {{ message }}
@@ -68,6 +65,12 @@ export default {
       if (!this.selectedImage?.image && this.uploading) return 'Загрузка...';
       return ''
     },
+
+    labelStyle() {
+      if (this.previewProxy) return {'--bg-url': `url(${this.previewProxy})`}
+      if (!this.previewProxy && this.selectedImage?.image) return {'--bg-url': `url(${this.selectedImageURL})`}
+      return {}
+    },
   },
 
   methods: {
@@ -75,7 +78,6 @@ export default {
       if (this.previewProxy) {
         evt.preventDefault();
         this.previewProxy = null;
-        this.$refs.label.style = null;
         this.$emit('remove')
       };
 
